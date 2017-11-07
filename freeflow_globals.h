@@ -1,3 +1,4 @@
+/* This file is exclusive for Free Flow Global variable declarations */
 struct user_input_s
 {
 char argument_1[20];
