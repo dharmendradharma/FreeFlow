@@ -18,22 +18,19 @@ if(user_input_trd=(struct user_input_s *)shmat(shmid_trd,NULL,0));
 //printf(" \n \t Shared memory attached succesfully to the thread ");
 while(1)
 {
-//printf( "\t \n in thread and waiting for signal");
+printf( "\t \n in thread and waiting for signal");
 pthread_cond_wait(&cond_signal_from_main,&user_config_lock);
-/*printf("\t \n received signal and waiting for mutex in thread ");
-pthread_mutex_lock(&user_config_lock);
+printf("\t \n received signal and waiting for mutex in thread ");
+//pthread_mutex_lock(&user_config_lock);
 printf("\t \n mutexacquired by thread ");
-*/
 if(user_input_trd=(struct user_input_s *)shmat(shmid_trd,NULL,0));
-/*printf(" \n user_input_t address is : %p ",user_input_trd);
-/printf(" In config populator \n ");
-printf(" First argument is: %s ",*(&(user_input_trd->argument_1)));*/
+//printf(" \n user_input_t address is : %p ",user_input_trd);
+//printf(" In config populator \n ");
+//printf(" First argument is: %s ",*(&(user_input_trd->argument_1)));
 printf("\n The first argument is : %s ",*(&(user_input_trd->argument_1)));
-printf("\n The second argument is : %s ",*(&(user_input_trd->argument_2)));
-printf("\n The third argument is : %s ",*(&(user_input_trd->argument_3)));
 //pthread_mutex_unlock(&user_config_lock);
 pthread_cond_signal(&cond_signal_from_thread);
-//printf(" mutex released by thread and sent signal from thread");
+printf(" mutex released by thread and sent signal from thread");
 }
 }
 /* Main Function */
@@ -64,9 +61,9 @@ memset(user_input_t,0,sizeof(struct user_input_s));
 fgets(user_input_string,sizeof(user_input_string),stdin);
 user_input_array_pointer=user_input_string;
 arg_counter=0;
-//printf("\t \n main waiting for mutex");
+printf("\t \n main waiting for mutex");
 //pthread_mutex_lock(&user_config_lock);
-//printf("\t \n main got the for mutex");
+printf("\t \n main got the for mutex");
 while(*user_input_array_pointer!='\0'&&(*user_input_array_pointer!='\r'))
 {
 j=0;
@@ -86,12 +83,12 @@ i++;
 user_input_array_pointer++;
 }
 //pthread_mutex_unlock(&user_config_lock);
-//printf("\t \n main released the mutex");
+printf("\t \n main released the mutex");
 pthread_cond_signal(&cond_signal_from_main);
-//printf("\t \n main sent the conditional signal and waiting for signal from thread");
+printf("\t \n main sent the conditional signal and waiting for signal from thread");
 
 pthread_cond_wait(&cond_signal_from_thread,&user_config_lock);
-//printf("\t \n main got the conditional signal from thread");
+printf("\t \n main got the conditional signal from thread");
 
 /*printf("\n The first argument is : %s ",user_input_t->argument_1);
 printf("\n The second argument is : %s ",user_input_t->argument_2);
